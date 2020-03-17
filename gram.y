@@ -49,7 +49,7 @@ int main()
 }
 
 %%
-input   : tINT tMAIN tOP tCP tOB body tCB {printf("main" \n); }
+input   : tINT tMAIN tOP tCP tOB body tCB {printf("main \n"); }
         ;   
 
 body    :   line tSC body
@@ -77,5 +77,5 @@ math    :   value tCROSS math {$$ = $1 * $3 ;}
         ;
 
 value   : tINTEGER {$$ = $1 ;}
-        | tNAME {$$ = $1}
+        | tNAME {$$ = $1;}
         ;
