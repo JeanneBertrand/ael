@@ -4,6 +4,8 @@ DIGIT   [0-9]
 EXP [eE][-+]?{DIGIT}+
 NAME    ^[a-zA-Z][a-zA-Z0-9_]+
 %{
+#include "y.tab.h"
+/*
 #define tMAIN 42
 #define tOB 10
 #define tCB 11
@@ -23,7 +25,7 @@ NAME    ^[a-zA-Z][a-zA-Z0-9_]+
 #define tCONST  50
 #define tINT    51
 #define tPRINT  88
-
+*/
 %}
 
 %%
@@ -82,8 +84,7 @@ main  {
             printf("\b");
         }
 [\n]+ {
-            printf("\n");
-            return tNL; 
+            printf("\n"); 
         }
 ,  {
         printf("Coma\n");
@@ -95,17 +96,13 @@ main  {
         return tSC ;
     }
 
-\-?{DIGIT}+     | 
+{DIGIT}+     | 
 {DIGIT}+{EXP}   {
                    printf("Integer %s\n", yytext); 
                    yylval.intValue = atoi(yytext);
                    return tINTEGER;
                 }
-NAME    {
-            printf("Name %s\n", yytext);
-            yylval.stringValue = yytext ; 
-            return tNAME ;
-        }
+
 const   {
             printf("const\n") ;
             return tCONST ; 
@@ -121,15 +118,14 @@ printf  {
             return tPRINT;
         }
 
+{NAME}  {
+            printf("Name %s\n", yytext);
+            yylval.stringValue = yytext ; 
+            return tNAME ;
+        }
+
     
 %% 
-int yywrap(void) {
-    return 1; 
-                }
-
-int main(void) {
-    yylex(); 
-}
 
 
 

@@ -50,7 +50,7 @@ extern int yydebug;
     tCB = 260,
     tOP = 261,
     tCP = 262,
-    tSPACE = 263,
+    tNL = 263,
     tPLUS = 264,
     tMINUS = 265,
     tCROSS = 266,
@@ -71,7 +71,7 @@ extern int yydebug;
 #define tCB 260
 #define tOP 261
 #define tCP 262
-#define tSPACE 263
+#define tNL 263
 #define tPLUS 264
 #define tMINUS 265
 #define tCROSS 266
@@ -90,7 +90,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 47 "gram.y" /* yacc.c:1909  */
+#line 45 "gram.y" /* yacc.c:1909  */
 
     int intValue;
     char *stringValue;

@@ -37,7 +37,6 @@ int main()
 %token tCONST 
 %token tINT   
 %token tPRINT 
-%type<intValue> math value
 %right tEQU
 %left tPLUS tMINUS
 %left tCROSS tDIV
@@ -68,14 +67,14 @@ declaration : tINT tNAME
 affectation : tNAME tEQU math 
             ; 
 
-math    :   value tCROSS math {$$ = $1 * $3 ;}
-        |   value tDIV math {$$ = $1 / $3 ;}
-        |   value tPLUS math {$$ = $1 + $3 ;}
-        |   value tMINUS math {$$ = $1 - $3 ;}
-        |   tMINUS value {$$ = - $2 ;} %prec tCROSS
+math    :   value tCROSS math {printf("multipass \n") ;}
+        |   value tDIV math {printf("division \n") ;}
+        |   value tPLUS math {printf("addition \n") ;}
+        |   value tMINUS math {printf("soustraction \n") ;}
+        |   tMINUS value {printf("moins\n") ;} %prec tCROSS
         |   value                   
         ;
 
-value   : tINTEGER {$$ = $1 ;}
-        | tNAME {$$ = $1;}
+value   : tINTEGER {printf("int %d \n",yylval.intValue) ;}
+        | tNAME {printf("variable %s \n", yylval.stringValue) ;}
         ;

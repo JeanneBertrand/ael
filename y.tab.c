@@ -101,7 +101,10 @@ int main()
 # define YYERROR_VERBOSE 0
 #endif
 
-
+/* In a future release of Bison, this section will be replaced
+   by #include "y.tab.h".  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -160,12 +163,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 46 "gram.y" /* yacc.c:355  */
+#line 45 "gram.y" /* yacc.c:355  */
 
     int intValue;
     char *stringValue;
 
-#line 169 "y.tab.c" /* yacc.c:355  */
+#line 172 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -178,11 +181,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 186 "y.tab.c" /* yacc.c:358  */
+#line 189 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -481,8 +484,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    52,    52,    55,    56,    59,    60,    61,    64,    65,
-      68,    71,    72,    73,    74,    75,    76,    79,    80
+       0,    51,    51,    54,    55,    58,    59,    60,    63,    64,
+      67,    70,    71,    72,    73,    74,    75,    78,    79
 };
 #endif
 
@@ -1269,55 +1272,55 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 52 "gram.y" /* yacc.c:1646  */
+#line 51 "gram.y" /* yacc.c:1646  */
     {printf("main \n"); }
-#line 1275 "y.tab.c" /* yacc.c:1646  */
+#line 1278 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 71 "gram.y" /* yacc.c:1646  */
-    {(yyval.intValue) = (yyvsp[-2].intValue) * (yyvsp[0].intValue) ;}
-#line 1281 "y.tab.c" /* yacc.c:1646  */
+#line 70 "gram.y" /* yacc.c:1646  */
+    {printf("multipass \n") ;}
+#line 1284 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 72 "gram.y" /* yacc.c:1646  */
-    {(yyval.intValue) = (yyvsp[-2].intValue) / (yyvsp[0].intValue) ;}
-#line 1287 "y.tab.c" /* yacc.c:1646  */
+#line 71 "gram.y" /* yacc.c:1646  */
+    {printf("division \n") ;}
+#line 1290 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 73 "gram.y" /* yacc.c:1646  */
-    {(yyval.intValue) = (yyvsp[-2].intValue) + (yyvsp[0].intValue) ;}
-#line 1293 "y.tab.c" /* yacc.c:1646  */
+#line 72 "gram.y" /* yacc.c:1646  */
+    {printf("addition \n") ;}
+#line 1296 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 74 "gram.y" /* yacc.c:1646  */
-    {(yyval.intValue) = (yyvsp[-2].intValue) - (yyvsp[0].intValue) ;}
-#line 1299 "y.tab.c" /* yacc.c:1646  */
+#line 73 "gram.y" /* yacc.c:1646  */
+    {printf("soustraction \n") ;}
+#line 1302 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 75 "gram.y" /* yacc.c:1646  */
-    {(yyval.intValue) = - (yyvsp[0].intValue) ;}
-#line 1305 "y.tab.c" /* yacc.c:1646  */
+#line 74 "gram.y" /* yacc.c:1646  */
+    {printf("moins\n") ;}
+#line 1308 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 79 "gram.y" /* yacc.c:1646  */
-    {(yyval.intValue) = (yyvsp[0].intValue) ;}
-#line 1311 "y.tab.c" /* yacc.c:1646  */
+#line 78 "gram.y" /* yacc.c:1646  */
+    {printf("int %d \n",yylval.intValue) ;}
+#line 1314 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 80 "gram.y" /* yacc.c:1646  */
-    {(yyval.intValue) = (yyvsp[0].stringValue);}
-#line 1317 "y.tab.c" /* yacc.c:1646  */
+#line 79 "gram.y" /* yacc.c:1646  */
+    {printf("variable %s \n", yylval.stringValue) ;}
+#line 1320 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1321 "y.tab.c" /* yacc.c:1646  */
+#line 1324 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
