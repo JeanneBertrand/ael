@@ -1,22 +1,9 @@
 %{
 #include <stdio.h>
 #include <string.h>
- 
-void yyerror(const char *str)
-{
-        fprintf(stderr,"error: %s\n",str);
-}
- 
-int yywrap()
-{
-        return 1;
-} 
-  
-int main()
-{
-        yyparse();
-} 
+#include "tablesymbole.h"
 
+int depth ;
 %}
 
 %token tMAIN 
@@ -32,6 +19,8 @@ int main()
 %token tEQU   
 %token tCOMA  
 %token tSC    
+%token tIF
+%token tELSE
 %token<intValue> tINTEGER 
 %token<stringValue> tNAME
 %token tCONST 
@@ -47,24 +36,41 @@ int main()
     char *stringValue;
 }
 
+
+
 %%
-input   : tINT tMAIN tOP tCP tOB body tCB {printf("main \n"); }
+input   :       tINT tMAIN tOP tCP tOB 
+                        {printf("main before body \n") ; depth++;} 
+                body tCB 
+                        {printf("main \n"); depth--;}
         ;   
 
-body    :   line tSC body
-        |   line tSC
+body    :       line 
+                        {printf("line before body \n") ;} 
+                body 
+                        {printf("line ; body \n") ;}
+        |       line 
+                        {printf("line  \n") ;}
+        |   
         ; 
 
-line    :   declaration
-        |   affectation
-        |   tPRINT tOP tNAME tCP
+line    :   declaration tSC
+        |   affectation tSC
+        |   tPRINT tOP tNAME tCP tSC
+        |   tIF tOP condition tCP bodif tELSE bodif
+        |   tIF tOP condition tCP bodif 
         ;
 
-declaration : tINT tNAME 
-            | tCONST tINT tNAME
+declaration :   tINT tNAME 
+                        {printf("declaration \n") ; addsymbol($2, false, false, depth);}
+            |   tCONST tINT tNAME 
+                        {printf("declaration \n") ; addsymbol($3, true, false, depth);}
             ;
 
-affectation : tNAME tEQU math 
+affectation :   tNAME tEQU math  
+                        {printf("affectation \n");}
+            |   declaration tEQU math
+                        {printf("declaration affectation \n");}
             ; 
 
 math    :   value tCROSS math {printf("multipass \n") ;}
@@ -75,6 +81,37 @@ math    :   value tCROSS math {printf("multipass \n") ;}
         |   value                   
         ;
 
+bodif     :     tOB 
+                        {printf("debut if \n"); depth ++;}
+                body tCB
+                        {printf("fin if \n"); depth --;}
+        ;
+
+condition : value tEQU tEQU value ;
+
 value   : tINTEGER {printf("int %d \n",yylval.intValue) ;}
         | tNAME {printf("variable %s \n", yylval.stringValue) ;}
         ;
+
+%%
+
+
+
+
+void yyerror(const char *str)
+{
+        fprintf(stderr,"error: %s\n",str);
+}
+ 
+int yywrap()
+{
+        return 1;
+} 
+  
+int main()
+{
+        depth=0;
+        yyparse();
+        if (depth!=0) {printf("erreur! depth !=0 fin programme\n");}
+} 
+

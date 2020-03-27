@@ -2,30 +2,10 @@
 
 DIGIT   [0-9]
 EXP [eE][-+]?{DIGIT}+
-NAME    ^[a-zA-Z][a-zA-Z0-9_]+
+NAME    [a-zA-Z][a-zA-Z0-9_]*
 %{
 #include "y.tab.h"
-/*
-#define tMAIN 42
-#define tOB 10
-#define tCB 11
-#define tOP 12
-#define tCP 13
-#define tNL 14
-#define tPLUS   20 
-#define tMINUS  21 
-#define tCROSS  22  
-#define tDIV    23
-#define tEQU    24
-#define tCOMA   30
-#define tSC     31
-#define tINTEGER    40
-#define tFLOAT  41
-#define tNAME   43
-#define tCONST  50
-#define tINT    51
-#define tPRINT  88
-*/
+
 %}
 
 %%
@@ -118,9 +98,19 @@ printf  {
             return tPRINT;
         }
 
+if      {
+            printf("if\n");
+            return tIF;
+        }
+
+else    {
+            printf("else\n");
+            return tELSE;
+        }
+
 {NAME}  {
             printf("Name %s\n", yytext);
-            yylval.stringValue = yytext ; 
+            yylval.stringValue = strdup(yytext) ; 
             return tNAME ;
         }
 

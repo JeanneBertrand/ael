@@ -58,11 +58,13 @@ extern int yydebug;
     tEQU = 268,
     tCOMA = 269,
     tSC = 270,
-    tINTEGER = 271,
-    tNAME = 272,
-    tCONST = 273,
-    tINT = 274,
-    tPRINT = 275
+    tIF = 271,
+    tELSE = 272,
+    tINTEGER = 273,
+    tNAME = 274,
+    tCONST = 275,
+    tINT = 276,
+    tPRINT = 277
   };
 #endif
 /* Tokens.  */
@@ -79,23 +81,25 @@ extern int yydebug;
 #define tEQU 268
 #define tCOMA 269
 #define tSC 270
-#define tINTEGER 271
-#define tNAME 272
-#define tCONST 273
-#define tINT 274
-#define tPRINT 275
+#define tIF 271
+#define tELSE 272
+#define tINTEGER 273
+#define tNAME 274
+#define tCONST 275
+#define tINT 276
+#define tPRINT 277
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 45 "gram.y" /* yacc.c:1909  */
+#line 34 "gram.y" /* yacc.c:1909  */
 
     int intValue;
     char *stringValue;
 
-#line 99 "y.tab.h" /* yacc.c:1909  */
+#line 103 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
