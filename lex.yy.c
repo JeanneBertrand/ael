@@ -760,7 +760,7 @@ case 1:
 YY_RULE_SETUP
 #line 13 "source.l"
 {
-            printf("Main\n"); 
+            //printf("Main\n"); 
             return tMAIN ;
         }
 	YY_BREAK
@@ -768,7 +768,7 @@ case 2:
 YY_RULE_SETUP
 #line 18 "source.l"
 {
-        printf("Open bracket\n"); 
+        //printf("Open bracket\n"); 
         return tOB ;
     }
 	YY_BREAK
@@ -776,7 +776,7 @@ case 3:
 YY_RULE_SETUP
 #line 23 "source.l"
 {
-        printf("Closing bracket\n"); 
+        //printf("Closing bracket\n"); 
         return tCB ;
     }
 	YY_BREAK
@@ -784,7 +784,7 @@ case 4:
 YY_RULE_SETUP
 #line 28 "source.l"
 {
-        printf("Open parenthesis\n"); 
+        //printf("Open parenthesis\n"); 
         return tOP ;
     }
 	YY_BREAK
@@ -792,7 +792,7 @@ case 5:
 YY_RULE_SETUP
 #line 33 "source.l"
 {
-        printf("Closing parenthesis\n"); 
+        //printf("Closing parenthesis\n"); 
         return tCP ;
     }
 	YY_BREAK
@@ -800,7 +800,7 @@ case 6:
 YY_RULE_SETUP
 #line 38 "source.l"
 { 
-        printf("Plus\n"); 
+        //printf("Plus\n"); 
         return tPLUS ;
     }
 	YY_BREAK
@@ -808,7 +808,7 @@ case 7:
 YY_RULE_SETUP
 #line 43 "source.l"
 {
-        printf("Minus\n"); 
+        //printf("Minus\n"); 
         return tMINUS ; 
     }
 	YY_BREAK
@@ -816,7 +816,7 @@ case 8:
 YY_RULE_SETUP
 #line 48 "source.l"
 {
-        printf("Cross\n"); 
+        //printf("Cross\n"); 
         return tCROSS ;
     }
 	YY_BREAK
@@ -824,7 +824,7 @@ case 9:
 YY_RULE_SETUP
 #line 53 "source.l"
 {
-        printf("Divide\n"); 
+        //printf("Divide\n"); 
         return tDIV ;
     }
 	YY_BREAK
@@ -832,7 +832,7 @@ case 10:
 YY_RULE_SETUP
 #line 58 "source.l"
 {
-        printf("Equal\n"); 
+        //printf("Equal\n"); 
         return tEQU ; 
     }
 	YY_BREAK
@@ -840,7 +840,7 @@ case 11:
 YY_RULE_SETUP
 #line 63 "source.l"
 {
-            printf("\b");
+            //printf("\b");
         }
 	YY_BREAK
 case 12:
@@ -848,14 +848,14 @@ case 12:
 YY_RULE_SETUP
 #line 66 "source.l"
 {
-            printf("\n"); 
+            //printf("\n"); 
         }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 69 "source.l"
 {
-        printf("Coma\n");
+        //printf("Coma\n");
         return tCOMA ;
     }
 	YY_BREAK
@@ -863,7 +863,7 @@ case 14:
 YY_RULE_SETUP
 #line 74 "source.l"
 {
-        printf("Semicolon\n");
+        //printf("Semicolon\n");
         return tSC ;
     }
 	YY_BREAK
@@ -873,7 +873,7 @@ case 16:
 YY_RULE_SETUP
 #line 80 "source.l"
 {
-                   printf("Integer %s\n", yytext); 
+                   //printf("Integer %s\n", yytext); 
                    yylval.intValue = atoi(yytext);
                    return tINTEGER;
                 }
@@ -882,7 +882,7 @@ case 17:
 YY_RULE_SETUP
 #line 86 "source.l"
 {
-            printf("const\n") ;
+            //printf("const\n") ;
             return tCONST ; 
         } 
 	YY_BREAK
@@ -890,7 +890,7 @@ case 18:
 YY_RULE_SETUP
 #line 91 "source.l"
 {
-            printf("Integer\n");
+            //printf("Integer\n");
             return tINT;
        }
 	YY_BREAK
@@ -898,7 +898,7 @@ case 19:
 YY_RULE_SETUP
 #line 96 "source.l"
 {
-            printf("printf\n");
+            //printf("printf\n");
             return tPRINT;
         }
 	YY_BREAK
@@ -906,7 +906,7 @@ case 20:
 YY_RULE_SETUP
 #line 101 "source.l"
 {
-            printf("if\n");
+            //printf("if\n");
             return tIF;
         }
 	YY_BREAK
@@ -914,7 +914,7 @@ case 21:
 YY_RULE_SETUP
 #line 106 "source.l"
 {
-            printf("else\n");
+            //printf("else\n");
             return tELSE;
         }
 	YY_BREAK
@@ -922,7 +922,7 @@ case 22:
 YY_RULE_SETUP
 #line 111 "source.l"
 {
-            printf("Name %s\n", yytext);
+            //printf("Name %s\n", yytext);
             yylval.stringValue = strdup(yytext) ; 
             return tNAME ;
         }

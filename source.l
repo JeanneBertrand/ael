@@ -11,105 +11,105 @@ NAME    [a-zA-Z][a-zA-Z0-9_]*
 %%
 
 main  {
-            printf("Main\n"); 
+            //printf("Main\n"); 
             return tMAIN ;
         }
 
 \{   {
-        printf("Open bracket\n"); 
+        //printf("Open bracket\n"); 
         return tOB ;
     }
 
 \}   {
-        printf("Closing bracket\n"); 
+        //printf("Closing bracket\n"); 
         return tCB ;
     }
 
 \(   {
-        printf("Open parenthesis\n"); 
+        //printf("Open parenthesis\n"); 
         return tOP ;
     }
 
 \)   {
-        printf("Closing parenthesis\n"); 
+        //printf("Closing parenthesis\n"); 
         return tCP ;
     }
 
 \+  { 
-        printf("Plus\n"); 
+        //printf("Plus\n"); 
         return tPLUS ;
     }
 
 \-  {
-        printf("Minus\n"); 
+        //printf("Minus\n"); 
         return tMINUS ; 
     }
 
 \*  {
-        printf("Cross\n"); 
+        //printf("Cross\n"); 
         return tCROSS ;
     }
 
 \/   {
-        printf("Divide\n"); 
+        //printf("Divide\n"); 
         return tDIV ;
     }
 
 =   {
-        printf("Equal\n"); 
+        //printf("Equal\n"); 
         return tEQU ; 
     }
 
 [\b\t]+ {
-            printf("\b");
+            //printf("\b");
         }
 [\n]+ {
-            printf("\n"); 
+            //printf("\n"); 
         }
 ,  {
-        printf("Coma\n");
+        //printf("Coma\n");
         return tCOMA ;
     }
 
 ;  {
-        printf("Semicolon\n");
+        //printf("Semicolon\n");
         return tSC ;
     }
 
 {DIGIT}+     | 
 {DIGIT}+{EXP}   {
-                   printf("Integer %s\n", yytext); 
+                   //printf("Integer %s\n", yytext); 
                    yylval.intValue = atoi(yytext);
                    return tINTEGER;
                 }
 
 const   {
-            printf("const\n") ;
+            //printf("const\n") ;
             return tCONST ; 
         } 
 
 int    {
-            printf("Integer\n");
+            //printf("Integer\n");
             return tINT;
        }
 
 printf  {
-            printf("printf\n");
+            //printf("printf\n");
             return tPRINT;
         }
 
 if      {
-            printf("if\n");
+            //printf("if\n");
             return tIF;
         }
 
 else    {
-            printf("else\n");
+            //printf("else\n");
             return tELSE;
         }
 
 {NAME}  {
-            printf("Name %s\n", yytext);
+            //printf("Name %s\n", yytext);
             yylval.stringValue = strdup(yytext) ; 
             return tNAME ;
         }
