@@ -58,9 +58,9 @@ extern int yydebug;
     tEQU = 268,
     tCOMA = 269,
     tSC = 270,
-    tIF = 271,
-    tELSE = 272,
-    tINTEGER = 273,
+    tINTEGER = 271,
+    tIF = 272,
+    tELSE = 273,
     tNAME = 274,
     tCONST = 275,
     tINT = 276,
@@ -81,9 +81,9 @@ extern int yydebug;
 #define tEQU 268
 #define tCOMA 269
 #define tSC 270
-#define tIF 271
-#define tELSE 272
-#define tINTEGER 273
+#define tINTEGER 271
+#define tIF 272
+#define tELSE 273
 #define tNAME 274
 #define tCONST 275
 #define tINT 276
@@ -94,7 +94,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 34 "gram.y" /* yacc.c:1909  */
+#line 51 "gram.y" /* yacc.c:1909  */
 
     int intValue;
     char *stringValue;

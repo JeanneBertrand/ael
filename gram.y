@@ -1,10 +1,27 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "tablesymbole.h"
-
+typedef struct _instruct{
+        char * inst;
+        int a;
+        int b;
+        int c;
+} instruct;
 int depth ;
-FILE * asmFile ;
+int current_ligne=0;
+instruct * labels;
+
+void patch(int from, int to){
+        char * i = labels[from].inst ;
+        if (i == "JMF"){
+                labels[from].b = to;
+        } else {
+                labels[from].a = to;
+        }
+        
+}
 %}
 
 %token tMAIN 
@@ -19,10 +36,9 @@ FILE * asmFile ;
 %token tDIV   
 %token tEQU   
 %token tCOMA  
-%token tSC    
-%token tIF
-%token tELSE
-%token<intValue> tINTEGER 
+%token tSC
+%token<intValue> tINTEGER tIF tELSE
+%type<intValue> bodif
 %token<stringValue> tNAME
 %token tCONST 
 %token tINT   
@@ -51,22 +67,42 @@ body    :       line body
         |   
         ; 
 
-line    :   declaration tSC
-        |   tPRINT tOP tNAME tCP tSC
-        |   tIF tOP condition tCP bodif tELSE bodif
-        |   tIF tOP condition tCP bodif
+line    :       declaration tSC
+        |       tPRINT tOP tNAME tCP tSC
+        |       bodif 
+                        {
+                        patch($1, current_ligne);
+                        }
+        |       bodif tELSE
+                        {
+                        patch($1, current_ligne+1);
+                        instruct inst={"JMP",-1,-1,-1};
+                        labels[current_ligne]=inst;
+                        current_ligne++;
+                        $1=current_ligne-1;
+                        }
+                tOB body tCB
+                        {
+                        patch($1,current_ligne);
+                        }
         ;
 
 declaration :   tINT tNAME tEQU math
                         {printf("declaration affectation \n"); 
                         int i=addsymbol($2, false, true, depth); 
                         int j=poptemp();
-                        fprintf(asmFile,"COP %d %d\n",i,j);}
+                        instruct inst={"COP",i,j,-1};
+                        labels[current_ligne]=inst;
+                        current_ligne++;
+                        }
             |   tCONST tINT tNAME tEQU math
                         {printf("declaration affectation \n"); 
                         int i=addsymbol($3, true, true, depth);
                         int j=poptemp();
-                        fprintf(asmFile,"COP %d %d\n",i,j);}
+                        instruct inst={"COP",i,j,-1};
+                        labels[current_ligne]=inst;
+                        current_ligne++;
+                        }
             |   tINT tNAME 
                         {printf("declaration \n") ; addsymbol($2, false, false, depth);}
             |   tCONST tINT tNAME 
@@ -75,8 +111,10 @@ declaration :   tINT tNAME tEQU math
                         {printf("affectation \n"); 
                         int i=initsymbol($1, depth);
                         int j=poptemp();
-                        fprintf(asmFile,"COP %d %d\n",i,j);}
-
+                        instruct inst={"COP",i,j,-1};
+                        labels[current_ligne]=inst;
+                        current_ligne++;
+                        }
             ; 
 
 math    :   math tCROSS math 
@@ -84,62 +122,99 @@ math    :   math tCROSS math
                 int i = poptemp();
                 int j= poptemp();
                 int k=pushtemp(); 
-                fprintf(asmFile,"MUL %d %d %d\n",k, j, i);
+                instruct inst={"MUL",k,j,i};
+                labels[current_ligne]=inst;
+                current_ligne++;
                 }
         |   math tDIV math 
                 {printf("division \n") ;
                 int i = poptemp();
                 int j= poptemp();
                 int k=pushtemp(); 
-                fprintf(asmFile,"DIV %d %d %d\n",k, j, i);
+                instruct inst={"DIV",k,j,i};
+                labels[current_ligne]=inst;
+                current_ligne++;
                 }
         |   math tPLUS math 
                 {printf("addition \n") ;
                 int i = poptemp();
                 int j= poptemp();
                 int k=pushtemp(); 
-                fprintf(asmFile,"ADD %d %d %d\n",k, j, i);
+                instruct inst={"ADD",k,j,i};
+                labels[current_ligne]=inst;
+                current_ligne++;
                 }
         |   math tMINUS math 
                 {printf("soustraction \n") ;
                 int i = poptemp();
                 int j= poptemp();
                 int k=pushtemp(); 
-                fprintf(asmFile,"SOU %d %d %d\n",k, j, i);
+                instruct inst={"SOU",k,j,i};
+                labels[current_ligne]=inst;
+                current_ligne++;
                 }
         |   tMINUS math 
                 {printf("moins\n") ;
                 int i = poptemp();
                 int j =pushtemp();
-                fprintf(asmFile,"AFC %d %d \n",j, 0 );
+                instruct inst={"AFC",j,0,-1};
+                labels[current_ligne]=inst;
+                current_ligne++;
                 j = poptemp();
                 int k=pushtemp(); 
-                fprintf(asmFile,"SOU %d %d %d\n",k, j, i);
+                instruct inst2= {"SOU",k,j,i};
+                labels[current_ligne]=inst2;
+                current_ligne++;
                 } %prec tCROSS
         |   value            
         ;
 
 
-bodif     :     tOB 
-                        {printf("debut if \n"); depth ++;}
-                body tCB
-                        {printf("fin if \n"); deletesymbol(depth) ; depth --;}
+bodif     :     tIF tOP condition tCP 
+                        {printf("debut if \n"); 
+                        depth ++;
+                        printf("JMF \n");
+                        int k = poptemp();
+                        instruct inst={"JMF",k,-1,-1};
+                        labels[current_ligne]=inst;
+                        current_ligne++;
+                        $1 = current_ligne-1;
+                        } 
+                tOB body tCB
+                        {
+                        $$ = $1;
+                        printf("fin if \n"); 
+                        deletesymbol(depth) ; 
+                        depth --;
+                        }
         ;
 
 condition : value tEQU tEQU value 
-                {printf("checking condition");
+                {printf("checking condition \n");
+                int i = poptemp();
+                int j = poptemp();
+                int k = pushtemp();
+                instruct inst={"EQU",k,j,i};
+                labels[current_ligne]=inst;
+                current_ligne++;
                 }
         ;
 
 value   : tINTEGER 
                 {printf("int %d \n",yylval.intValue) ; 
                 int i=pushtemp();
-                fprintf(asmFile,"AFC %d %d\n",i,$1); }
+                instruct inst={"AFC",i,$1,-1};
+                labels[current_ligne]=inst;
+                current_ligne++;
+                }
         | tNAME 
                 {printf("variable %s \n", yylval.stringValue) ;
                 int i = findsymbol($1, depth);
                 int j=pushtemp();
-                fprintf(asmFile,"COP %d %d \n",j,i);}
+                instruct inst={"COP",j,i,-1};
+                labels[current_ligne]=inst;
+                current_ligne++;
+                }
         ;
 
 %%
@@ -156,13 +231,30 @@ int yywrap()
 {
         return 1;
 } 
-  
+
+FILE * print_asm(){
+        FILE * asmFile = fopen( "asm.asm", "w" );
+        instruct instr;
+        for (int i=0; i<current_ligne;i++){
+                instr = labels[i];
+                if (instr.b == -1){
+                        fprintf(asmFile,"%s %d\n", instr.inst, instr.a);
+                } else if (instr.c == -1){
+                        fprintf(asmFile,"%s %d %d\n", instr.inst, instr.a, instr.b);
+                }else {
+                        fprintf(asmFile,"%s %d %d %d\n", instr.inst, instr.a, instr.b, instr.c);
+                }
+        }
+        return asmFile;
+}
+
 int main()
 {
-        asmFile = fopen( "asm.asm", "w" );
         depth=0;
         init();
+        labels = malloc(1024 * sizeof(instruct));
         yyparse();
+        FILE * asmFile= print_asm();
         if (depth!=0) {printf("erreur! depth !=0 fin programme\n");}
         if (fclose(asmFile) != 0) {printf("erreur de fermeture du fichier");}
 } 
