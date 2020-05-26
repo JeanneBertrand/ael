@@ -107,7 +107,10 @@ else    {
             //printf("else\n");
             return tELSE;
         }
-
+while   {
+            //printf("while\n");
+            return tWHILE;
+        }
 {NAME}  {
             //printf("Name %s\n", yytext);
             yylval.stringValue = strdup(yytext) ; 

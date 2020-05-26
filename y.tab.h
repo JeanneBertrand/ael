@@ -48,58 +48,60 @@ extern int yydebug;
     tMAIN = 258,
     tOB = 259,
     tCB = 260,
-    tOP = 261,
-    tCP = 262,
-    tNL = 263,
-    tPLUS = 264,
-    tMINUS = 265,
-    tCROSS = 266,
-    tDIV = 267,
-    tEQU = 268,
-    tCOMA = 269,
-    tSC = 270,
-    tINTEGER = 271,
-    tIF = 272,
-    tELSE = 273,
-    tNAME = 274,
-    tCONST = 275,
-    tINT = 276,
-    tPRINT = 277
+    tCP = 261,
+    tNL = 262,
+    tPLUS = 263,
+    tMINUS = 264,
+    tCROSS = 265,
+    tDIV = 266,
+    tEQU = 267,
+    tCOMA = 268,
+    tSC = 269,
+    tINTEGER = 270,
+    tIF = 271,
+    tELSE = 272,
+    tWHILE = 273,
+    tOP = 274,
+    tNAME = 275,
+    tCONST = 276,
+    tINT = 277,
+    tPRINT = 278
   };
 #endif
 /* Tokens.  */
 #define tMAIN 258
 #define tOB 259
 #define tCB 260
-#define tOP 261
-#define tCP 262
-#define tNL 263
-#define tPLUS 264
-#define tMINUS 265
-#define tCROSS 266
-#define tDIV 267
-#define tEQU 268
-#define tCOMA 269
-#define tSC 270
-#define tINTEGER 271
-#define tIF 272
-#define tELSE 273
-#define tNAME 274
-#define tCONST 275
-#define tINT 276
-#define tPRINT 277
+#define tCP 261
+#define tNL 262
+#define tPLUS 263
+#define tMINUS 264
+#define tCROSS 265
+#define tDIV 266
+#define tEQU 267
+#define tCOMA 268
+#define tSC 269
+#define tINTEGER 270
+#define tIF 271
+#define tELSE 272
+#define tWHILE 273
+#define tOP 274
+#define tNAME 275
+#define tCONST 276
+#define tINT 277
+#define tPRINT 278
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 51 "gram.y" /* yacc.c:1909  */
+#line 50 "gram.y" /* yacc.c:1909  */
 
     int intValue;
     char *stringValue;
 
-#line 103 "y.tab.h" /* yacc.c:1909  */
+#line 105 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

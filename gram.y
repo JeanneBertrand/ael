@@ -27,7 +27,6 @@ void patch(int from, int to){
 %token tMAIN 
 %token tOB 
 %token tCB 
-%token tOP 
 %token tCP 
 %token tNL
 %token tPLUS   
@@ -37,8 +36,8 @@ void patch(int from, int to){
 %token tEQU   
 %token tCOMA  
 %token tSC
-%token<intValue> tINTEGER tIF tELSE
-%type<intValue> bodif
+%token<intValue> tINTEGER tIF tELSE tWHILE tOP
+%type<intValue> bodif while condition
 %token<stringValue> tNAME
 %token tCONST 
 %token tINT   
@@ -85,6 +84,7 @@ line    :       declaration tSC
                         {
                         patch($1,current_ligne);
                         }
+        |       while
         ;
 
 declaration :   tINT tNAME tEQU math
@@ -189,6 +189,29 @@ bodif     :     tIF tOP condition tCP
                         }
         ;
 
+while :         tWHILE 
+                        {
+                                $1=current_ligne;
+                        }
+                tOP condition tCP
+                        {
+                                int k = poptemp();
+                                instruct inst={"JMF",k,-1,-1};
+                                labels[current_ligne]=inst;
+                                $3 = current_ligne;
+                                current_ligne++;
+                        }
+                tOB body tCB
+                        {
+                                int i =$1 ;
+                                instruct inst={"JMP",i,-1,-1};
+                                labels[current_ligne]=inst;
+                                current_ligne++;
+                                i = $3;
+                                patch(i,current_ligne);
+                        }
+
+        ;
 condition : value tEQU tEQU value 
                 {printf("checking condition \n");
                 int i = poptemp();
